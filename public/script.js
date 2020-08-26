@@ -1,5 +1,21 @@
 document.addEventListener('DOMContentLoaded',(event) => {
+    //code sending a get request from the server to retrieve all blogs
     let blogData;
+
+    async function getBlogData(){
+        try {
+            const res = await fetch('/getBlogs')
+            const data = await res.json()
+            blogData = data
+        } catch (err) {
+            console.log(err)
+        }
+    } 
+
+    getBlogData()
+        .then(() => {
+            console.log(blogData)
+        })
 
     //The component that displays a single blog post
     Vue.component('blog-post', {
