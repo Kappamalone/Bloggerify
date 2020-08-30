@@ -14,8 +14,11 @@ document.addEventListener('DOMContentLoaded',(event) => {
 
     getBlogData()
         .then(() => {
-            console.log(blogData)
-        })
+            if (blogData[0] != undefined){
+                console.log('blog data exists')
+                console.log(blogData)
+            }
+    })
 
     //The component that displays a single blog post
     Vue.component('blog-post', {
