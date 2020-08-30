@@ -7,15 +7,13 @@ const blog = require('./models/blog');
 const app = express();
 const port = 3000;
 
-//connect to mongodb, password stored in local js file
-const pass = require('./credentials.js').pass
-let db = `mongodb+srv://Kappamalone:${pass}@kappamalone-cluster.u10jv.mongodb.net/diff?retryWrites=true&w=majority`;
+app.use(express.static('public'))
+app.use(bodyParser.json())
 
-mongoose
-  .connect(db, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB!'))
-  .catch(err => console.log(err));
+//connect to mongodb, with password stored in local js file
+mongoDBSetup();
 
+//Finish writing up the admin page and add proper date functionality
 /*
 const blogEntry = new Blog({
   title: 'hello world',
@@ -29,8 +27,6 @@ blogEntry
   .catch(err => console.log(err));
 */
 
-app.use(express.static('public'))
-app.use(bodyParser.json())
 
 //Simple routing
 app.get('/',(req,res) => {
@@ -55,7 +51,7 @@ app.get('/getBlogs',(req,res) => {
   async function getBlog(){
     try {
       blogData = await blogPromise()
-      console.log(blogData)
+      //console.log(blogData)
     } catch (err){
       console.log('damn')
       console.log(err)
@@ -68,9 +64,18 @@ app.get('/getBlogs',(req,res) => {
       res.send(JSON.stringify(blogData))
     })
   
-  
 })
 
 app.listen(port,() => {
     console.log('Listening at port ' + port)
 })
+
+function mongoDBSetup() {
+  const pass = require('./credentials.js').pass;
+  let db = `mongodb+srv://Kappamalone:${pass}@kappamalone-cluster.u10jv.mongodb.net/diff?retryWrites=true&w=majority`;
+
+  mongoose
+    .connect(db, { useNewUrlParser: true, useCreateIndex: true, useFindAndModify: false, useUnifiedTopology: true })
+    .then(() => console.log('Connected to MongoDB!'))
+    .catch(err => console.log(err));
+}

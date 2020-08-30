@@ -38,14 +38,14 @@
                     </nav>
                 </div>
             </div>
+            <div class="alertMessage"></div>
             <blog-post 
             v-for='blog in blogposts'
             v-bind:blogdata = 'blog'
-            v-bind:key = 'blog.id'></blog-post>
+            v-bind:key = 'blog._id'></blog-post>
         </div>
     </div>
     <script src='script.js'></script>
-    <script src='public/script.js'></script>
 </body>
 </html>
 
@@ -59,4 +59,11 @@ keeping some elements here if i need to change them in the future
         <p class = 'h4 font-weight-normal text-monospace text-white'>{{blogdata.content}}</p>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-12 mt-3">
+        <div class="alert alert-warning text-center" role="alert">Unable to load blogs!</div>
+    </div>
+</div>
+
 -->
