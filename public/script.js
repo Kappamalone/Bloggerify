@@ -37,7 +37,5 @@ document.addEventListener('DOMContentLoaded',(event) => {
             '</div>)')
             }
     })
-
     
 })
-  
