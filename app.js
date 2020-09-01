@@ -3,13 +3,13 @@ const path = require('path');
 const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const blog = require('./models/blog');
+const e = require('express');
 
 const app = express();
 const port = 3000;
 
 app.use(express.static('public'))
 app.use(bodyParser.json())
-
 //connect to mongodb, with password stored in local js file
 mongoDBSetup();
 
@@ -64,6 +64,30 @@ app.get('/getBlogs',(req,res) => {
       res.send(JSON.stringify(blogData))
     })
   
+})
+
+app.get('/admin-login',(req,res) => {
+  res.sendFile(path.join(__dirname,'admin-login.html'));
+})
+
+app.get('/admin-page',(req,res) => {
+  res.sendFile(path.join(__dirname,'admin-page.html'))
+})
+
+app.post('/adminLogin',(req,res) => {
+  const adminLogins = require('./credentials').adminLogins
+  let status = 500
+
+  email = req.body.email;
+  pass = req.body.pass;
+
+  for (const entry of adminLogins){
+    if (entry.email == email && entry.pass == pass){
+      status = 200
+      console.log('authenticated!')
+    }
+  }
+  res.sendStatus(status)
 })
 
 app.listen(port,() => {
